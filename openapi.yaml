@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: Smart kWh Meter & Billing Gateway API
+  version: 1.0.0
+  description: Low-latency embedded REST interface running on Zephyr RTOS & ESP32.
+paths:
+  /api/v1/meter:
+    get:
+      summary: Get latest meter telemetry reading
+      responses:
+        '200':
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device:
+                    type: string
+                    example: ESP32-SmartMeter
+                  kwh:
+                    type: number
+                    format: float
+                    example: 131.60
+                  relay_state:
+                    type: integer
+                    example: 1
+  /api/v1/relay/cut:
+    get:
+      summary: Disconnect mains power (Payment overdue)
+      responses:
+        '200':
+          description: Relay opened successfully
+  /api/v1/relay/restore:
+    get:
+      summary: Restore mains power (Payment verified)
+      responses:
+        '200':
+          description: Relay closed successfully
