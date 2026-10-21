@@ -7,7 +7,13 @@ Designed with a first-principles embedded engineering mindset, this project feat
 
 ---
 ![mini_web](jpeg/SmartMeteringNatska.png) 
-![mini_web](jpeg/client_terminal.png) 
+![Client_terminal](jpeg/client_terminal.png) 
+
+![High_Performance_Telemetry](jpeg/High_Performance_Telemetry.png) 
+![Telemetry_control_kWh_meter](jpeg/Telemetry_control_kWh_meter.png) 
+
+
+
 
 ## 🚀 Key Features
 
