@@ -6,13 +6,10 @@ A production-grade, zero-allocation embedded IoT billing gateway and smart meter
 Designed with a first-principles embedded engineering mindset, this project features lock-free producer-consumer ring buffers, cache-line isolation, POSIX/BSD socket networking, REST JSON APIs, and a responsive embedded single-page web dashboard.
 
 ---
-![mini_web](jpeg/SmartMeteringNatska.png) 
-![Client_terminal](jpeg/client_terminal.png) 
-
-![High_Performance_Telemetry](jpeg/High_Performance_Telemetry.png) 
-![Telemetry_control_kWh_meter](jpeg/Telemetry_control_kWh_meter.png) 
-
-
+![Smart Metering Dashboard](jpeg/SmartMeteringNatska.png)
+![Client Terminal Output](jpeg/client_terminal.png)
+![High Performance Telemetry](jpeg/High_Performance_Telemetry.jpg)
+![Telemetry Control kWh Meter](jpeg/Telemetry_control_kWh_meter.jpg)
 
 
 ## 🚀 Key Features
