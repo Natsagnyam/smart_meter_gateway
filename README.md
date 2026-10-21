@@ -7,6 +7,7 @@ Designed with a first-principles embedded engineering mindset, this project feat
 
 ---
 ![mini_web](jpeg/SmartMeteringNatska.png) 
+![mini_web](jpeg/client_terminal.png) 
 
 ## 🚀 Key Features
 
