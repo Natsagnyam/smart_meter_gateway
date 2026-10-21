@@ -1,39 +1,114 @@
 openapi: 3.0.3
 info:
-  title: Smart kWh Meter & Billing Gateway API
-  version: 1.0.0
-  description: Low-latency embedded REST interface running on Zephyr RTOS & ESP32.
+  title: Zephyr RTOS Smart kWh Meter & Billing Gateway API
+  description: >
+    Production-grade REST JSON API interface for an ESP32-WROOM-32E smart meter billing gateway running Zephyr RTOS.
+    Features real-time telemetry streaming, mains power cutoff relay control, and zero-allocation static memory pooling.
+  version: 1.1.0
+  contact:
+    name: Natska Natsagnyam NAMKHAI
+    url: https://github.com/Natsagnyam/smart_meter_gateway
+
+servers:
+  - url: http://192.168.68.106
+    description: ESP32 Target Node (Local Area Network)
+
 paths:
   /api/v1/meter:
     get:
-      summary: Get latest meter telemetry reading
+      summary: Get live telemetry and relay status
+      description: Returns the latest cumulative kWh meter reading, relay state, and RTOS kernel uptime.
+      operationId: getMeterTelemetry
       responses:
         '200':
-          description: Successful retrieval
+          description: Telemetry data retrieved successfully
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  device:
-                    type: string
-                    example: ESP32-SmartMeter
                   kwh:
                     type: number
                     format: float
-                    example: 131.60
-                  relay_state:
+                    example: 124.55
+                    description: Cumulative energy reading in kilowatt-hours
+                  relay_closed:
+                    type: boolean
+                    example: true
+                    description: Mains relay state (true = Power ON, false = Power CUT)
+                  uptime_ms:
                     type: integer
-                    example: 1
+                    example: 107200
+                    description: Zephyr kernel uptime in milliseconds
+
   /api/v1/relay/cut:
     get:
-      summary: Disconnect mains power (Payment overdue)
+      summary: Disconnect mains power relay
+      description: Requires Bearer Token. Triggers GPIO output to disconnect mains electricity upon missed billing payments.
+      operationId: cutPowerRelay
+      security:
+        - BearerAuth: []
       responses:
         '200':
-          description: Relay opened successfully
+          description: Power disconnected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  relay:
+                    type: string
+                    example: CUT
+        '401':
+          description: Unauthorized - Missing or invalid Bearer Token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized - Missing or Invalid Bearer Token"
+
   /api/v1/relay/restore:
     get:
-      summary: Restore mains power (Payment verified)
+      summary: Restore mains power relay
+      description: Requires Bearer Token. Triggers GPIO output to restore mains power upon payment verification.
+      operationId: restorePowerRelay
+      security:
+        - BearerAuth: []
       responses:
         '200':
-          description: Relay closed successfully
+          description: Power restored successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  relay:
+                    type: string
+                    example: RESTORED
+        '401':
+          description: Unauthorized - Missing or invalid Bearer Token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized - Missing or Invalid Bearer Token"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: SecretToken
+      description: Enter 'Bearer NatskaSecretToken2026' to authenticate protected relay operations.
